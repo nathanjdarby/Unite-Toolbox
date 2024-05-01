@@ -1,0 +1,90 @@
+# Importing necessary libraries
+import requests
+from bs4 import BeautifulSoup
+
+# Define the URL of the site we want to scrape
+url = 'https://surveys.unitetheunion.org/233264155237353'
+
+# Send a GET request to the website
+response = requests.get(url)
+
+# Check if the request was successful
+if response.status_code == 200:
+    # Parse the content of the request with BeautifulSoup
+    soup = BeautifulSoup(response.text, 'html.parser')
+    
+    # Select all the 'a' tags with the class 'titlelink' which contains the titles of the posts
+    titles = soup.select('.form-label')
+    
+    # Extract the text from each title tag
+    top_titles = [title.get_text() for title in titles]
+else:
+    top_titles = 'Failed to retrieve data'
+
+top_titles[:-1]  # Display the top 5 titles to keep the output concise
+
+# Check if the request was successful
+if response.status_code == 200:
+    # Parse the content of the request with BeautifulSoup
+    soup = BeautifulSoup(response.text, 'html.parser')
+    
+    # Find all label tags in the HTML
+    labels = soup.find_all('label')
+
+    # Check if any label contains the text "Membership Number"
+    membership_label_exists = any("Membership Number" in label.text for label in labels)
+
+    # Print the result
+    if membership_label_exists:
+        print('Label with the text "Membership Number" found.')
+    else:
+        print('Label with the text "Membership Number" not found.')
+else:
+    print('Failed to retrieve data')
+
+# Check if the request was successful
+if response.status_code == 200:
+    # Parse the content of the request with BeautifulSoup
+    soup = BeautifulSoup(response.text, 'html.parser')
+    
+    # Find the label that contains the text "Membership Number"
+    label = soup.find(lambda tag: tag.name == "label" and "Membership Number" in tag.text)
+    
+    # Initialize variables to keep track of the classes and name presence
+    has_form_readonly = False
+    has_validate_required = False
+    has_membership_number_at_end = False
+
+    # If the label is found, find the associated input element by its id
+    if label:
+        input_id = label.get('for')
+        input_element = soup.find('input', id=input_id)
+
+        # Check if the input element has the class "form-readonly"
+        if input_element:
+            classes = input_element.get('class', [])
+            has_form_readonly = 'form-readonly' in classes
+            has_validate_required = 'validate[required]' in classes
+            
+            # Check if the 'name' attribute ends with "MembershipNumber"
+            name_attribute = input_element.get('name', '')
+            if name_attribute.endswith("MembershipNumber"):
+                has_membership_number_at_end = True
+            else:
+                has_membership_number_at_end = False
+                
+    # Inform the user what the actual name tag is
+    actual_name_message = f'The unique name is: {name_attribute}'
+
+    # Print the results
+    print(f'Input with "form-readonly" class present: {has_form_readonly}')
+    print(f'Input with "validate[required]" class present: {has_validate_required}')
+    print(f'Input name ends with "MembershipNumber": {has_membership_number_at_end}')
+    # Print the actual name tag message if the condition is false
+    if not has_membership_number_at_end:
+        print(actual_name_message)
+else:
+    print('Failed to retrieve data')
+
+    # Print the actual name tag message if the condition is false
+    
