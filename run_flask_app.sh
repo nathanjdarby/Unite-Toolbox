@@ -1,0 +1,47 @@
+#!/bin/bash
+# Script to run the Flask web application
+
+echo "Starting Unite Toolbox Flask App..."
+echo ""
+
+# Get the script directory
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Change to the script directory
+cd "$SCRIPT_DIR"
+
+# Check if Flask is installed
+if ! python3 -c "import flask" 2>/dev/null; then
+    echo "Flask not found. Installing Flask..."
+    pip3 install flask
+fi
+
+# Create necessary directories if they don't exist
+mkdir -p uploads
+mkdir -p results
+
+# Copy Flask app and templates to main directory temporarily
+# (Flask needs templates in a 'templates' folder relative to the app)
+if [ ! -f "flask_app.py" ]; then
+    cp archive/flask_app.py .
+    cp -r archive/templates .
+    FILES_COPIED=true
+else
+    FILES_COPIED=false
+fi
+
+echo "Flask app will be available at: http://127.0.0.1:5000"
+echo "Press Ctrl+C to stop the server"
+echo ""
+
+# Run Flask app
+python3 flask_app.py
+
+# Cleanup: remove copied files if we copied them
+if [ "$FILES_COPIED" = true ]; then
+    echo ""
+    echo "Cleaning up temporary files..."
+    rm flask_app.py
+    rm -r templates
+fi
+

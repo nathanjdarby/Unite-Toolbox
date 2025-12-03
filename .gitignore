@@ -1,5 +1,46 @@
-/build 
-/__pycache__
-/dist 
-/CompareResults
-/MSO Remover and Inliner
+# Build artifacts
+/build
+/dist
+*.spec.bak
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary directories
+results/
+uploads/
+*.log
+
+# Distribution files
+*.zip
+*.app
+*.exe
+
+# Archive folder (optional - uncomment if you don't want to track archived files)
+# /archive
