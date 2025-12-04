@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unite Toolbox</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      body {
+        background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+        min-height: 100vh;
+      }
+      .navbar-brand {
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+      .container {
+        max-width: 1200px;
+        margin-top: 40px;
+      }
+      .card {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      }
+      .footer {
+        margin-top: 60px;
+        color: #888;
+        text-align: center;
+        font-size: 0.95em;
+      }
+      .hover-bg-light:hover {
+        background-color: #f5f5f5;
+      }
+      .button {
+        transition: all 0.2s ease;
+      }
+      .button:hover {
+        transform: translateY(-1px);
+      }
+      .notification {
+        border-radius: 6px;
+      }
+      .notification.is-danger {
+        background-color: #ff3860;
+        color: white;
+      }
+      .notification.is-success {
+        background-color: #23d160;
+        color: white;
+      }
+      .notification.is-warning {
+        background-color: #ffdd57;
+        color: #4a4a4a;
+      }
+      .notification.is-info {
+        background-color: #3298dc;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <nav
+      class="navbar is-primary"
+      role="navigation"
+      aria-label="main navigation"
+    >
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+          <i class="fas fa-tools mr-2"></i>
+          <strong>Unite Toolbox</strong>
+        </a>
+      </div>
+    </nav>
+
+    <div class="container">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="notification is-{{ category }} mt-4">
+        <button class="delete" onclick="this.parentElement.remove()"></button>
+        <i class="fas fa-info-circle mr-2"></i>{{ message }}
+      </div>
+      {% endfor %} {% endif %} {% endwith %} {% block content %}{% endblock %}
+    </div>
+
+    <div class="footer">
+      <i class="fas fa-heart has-text-danger mr-1"></i>
+      Unite Toolbox &copy; {{ 2024 }} &mdash; Modern Web Edition
+    </div>
+  </body>
+</html>

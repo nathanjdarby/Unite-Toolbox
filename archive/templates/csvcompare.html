@@ -1,0 +1,134 @@
+{% extends 'base.html' %} {% block content %}
+<div class="columns is-centered">
+  <div class="column is-6-desktop is-8-tablet">
+    <div class="card" style="max-width: 500px; margin: 0 auto">
+      <div class="card-content">
+        <div class="has-text-centered mb-4">
+          <i
+            class="fas fa-balance-scale fa-3x has-text-grey-dark mb-2"
+            style="display: block; position: static !important; margin: 0 auto"
+          ></i>
+          <div style="clear: both"></div>
+          <h3 class="title is-4 mb-1 mt-2" style="position: static !important">
+            CSV Compare
+          </h3>
+          <p
+            class="subtitle is-6 has-text-grey mb-0"
+            style="position: static !important; margin-top: 20px"
+          >
+            Find missing records between two CSV files
+          </p>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+          <div class="field">
+            <label for="csv_file1" class="label">
+              <i class="fas fa-upload mr-2"></i>First CSV File
+            </label>
+            <div class="control">
+              <div class="file has-name is-fullwidth">
+                <label class="file-label">
+                  <input
+                    class="file-input"
+                    type="file"
+                    id="csv_file1"
+                    name="csv_file1"
+                    accept=".csv"
+                    required
+                  />
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label"> Choose a file… </span>
+                  </span>
+                  <span class="file-name"> No file selected </span>
+                </label>
+              </div>
+            </div>
+            <p class="help">
+              <i class="fas fa-info-circle mr-1"></i>
+              Select the first CSV file to compare
+            </p>
+          </div>
+
+          <div class="field">
+            <label for="csv_file2" class="label">
+              <i class="fas fa-upload mr-2"></i>Second CSV File
+            </label>
+            <div class="control">
+              <div class="file has-name is-fullwidth">
+                <label class="file-label">
+                  <input
+                    class="file-input"
+                    type="file"
+                    id="csv_file2"
+                    name="csv_file2"
+                    accept=".csv"
+                    required
+                  />
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label"> Choose a file… </span>
+                  </span>
+                  <span class="file-name"> No file selected </span>
+                </label>
+              </div>
+            </div>
+            <p class="help">
+              <i class="fas fa-info-circle mr-1"></i>
+              Select the second CSV file to compare against
+            </p>
+          </div>
+
+          <div class="field">
+            <label for="key_column" class="label">
+              <i class="fas fa-key mr-2"></i>Key Column Name
+            </label>
+            <div class="control">
+              <input
+                class="input is-medium"
+                type="text"
+                id="key_column"
+                name="key_column"
+                placeholder="e.g. MembershipNumber"
+                required
+              />
+            </div>
+            <p class="help">
+              <i class="fas fa-info-circle mr-1"></i>
+              Enter the column name to use for comparison (e.g.,
+              MembershipNumber)
+            </p>
+          </div>
+
+          <div class="field is-grouped">
+            <div class="control">
+              <button type="submit" class="button is-grey-dark is-medium">
+                <i class="fas fa-download mr-2"></i>Compare & Download
+              </button>
+            </div>
+            <div class="control">
+              <a href="/" class="button is-light is-medium">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Home
+              </a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll(".file-input").forEach(function (input) {
+    input.addEventListener("change", function (e) {
+      const fileName = e.target.files[0]
+        ? e.target.files[0].name
+        : "No file selected";
+      e.target.parentElement.querySelector(".file-name").textContent = fileName;
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends 'base.html' %} {% block content %}
+<div class="columns is-centered">
+  <div class="column is-10">
+    <div class="card" style="max-width: 900px; margin: 0 auto">
+      <div class="card-content">
+        <div class="has-text-centered mb-4">
+          <i
+            class="fas fa-link fa-3x has-text-danger mb-2"
+            style="display: block; position: static !important; margin: 0 auto"
+          ></i>
+          <div style="clear: both"></div>
+          <h3 class="title is-4 mb-1 mt-2" style="position: static !important">
+            URL Builder
+          </h3>
+          <p
+            class="subtitle is-6 has-text-grey mb-0"
+            style="position: static !important; margin-top: 20px"
+          >
+            Build custom survey URLs with parameters
+          </p>
+        </div>
+        <form method="post">
+          <div class="field">
+            <label for="base_path" class="label">
+              <i class="fas fa-globe mr-2"></i>Survey Path
+            </label>
+            <div class="control">
+              <input
+                class="input is-medium"
+                type="text"
+                id="base_path"
+                name="base_path"
+                placeholder="form-templates/standalone/ur/your-form"
+                required
+              />
+            </div>
+            <p class="help">
+              <i class="fas fa-info-circle mr-1"></i>
+              Example:
+              form-templates/standalone/ur/anonymous-feedback-form-template
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label">
+              <i class="fas fa-cogs mr-2"></i>URL Parameters
+            </label>
+            <div class="columns is-multiline">
+              {% for param, value in params.items() %}
+              <div class="column is-4-desktop is-6-tablet">
+                <div class="box has-background-light">
+                  <label class="checkbox">
+                    <input
+                      type="checkbox"
+                      name="{{ param }}"
+                      id="param_{{ param }}"
+                    />
+                    <strong>{{ param }}</strong>
+                  </label>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="field is-grouped">
+            <div class="control">
+              <button type="submit" class="button is-danger is-medium">
+                <i class="fas fa-magic mr-2"></i>Build URL
+              </button>
+            </div>
+            <div class="control">
+              <a href="/" class="button is-light is-medium">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Home
+              </a>
+            </div>
+          </div>
+        </form>
+
+        {% if url %}
+        <div class="notification is-success mt-4">
+          <h5 class="title is-5">
+            <i class="fas fa-check-circle mr-2"></i>Generated URL
+          </h5>
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input
+                class="input"
+                type="text"
+                value="{{ url }}"
+                readonly
+                onclick="this.select();"
+              />
+            </div>
+            <div class="control">
+              <button
+                class="button is-success"
+                type="button"
+                onclick="navigator.clipboard.writeText('{{ url }}')"
+              >
+                <i class="fas fa-copy"></i>
+              </button>
+            </div>
+          </div>
+          <p class="help mt-2">
+            <i class="fas fa-info-circle mr-1"></i>
+            Click the URL to select all, or use the copy button
+          </p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

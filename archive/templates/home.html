@@ -1,0 +1,154 @@
+{% extends 'base.html' %} {% block content %}
+<div class="has-text-centered mb-5">
+  <h1 class="title is-1 mb-3">Unite Toolbox</h1>
+  <p class="subtitle has-text-grey">
+    Modern web interface for ballot, survey, and data processing
+  </p>
+</div>
+
+<div class="columns is-multiline is-align-items-stretch">
+  <div class="column is-4-desktop is-6-tablet">
+    <div class="card h-100">
+      <div
+        class="card-content is-flex is-flex-direction-column"
+        style="min-height: 260px"
+      >
+        <div class="mb-3">
+          <i class="fas fa-file-csv fa-3x has-text-primary"></i>
+        </div>
+        <h5 class="title is-5">CSV to UWP</h5>
+        <p class="subtitle is-6 has-text-grey">
+          Convert CSV files to UWP format for ballot processing
+        </p>
+        <div class="mt-auto">
+          <a href="/csv2uwp" class="button is-primary">Open Tool</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="column is-4-desktop is-6-tablet">
+    <div class="card h-100">
+      <div
+        class="card-content is-flex is-flex-direction-column"
+        style="min-height: 260px"
+      >
+        <div class="mb-3">
+          <i class="fas fa-sms fa-3x has-text-success"></i>
+        </div>
+        <h5 class="title is-5">CSV to SMS List</h5>
+        <p class="subtitle is-6 has-text-grey">
+          Extract SMS-eligible members from your data
+        </p>
+        <div class="mt-auto">
+          <a href="/csv2sms" class="button is-success">Open Tool</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="column is-4-desktop is-6-tablet">
+    <div class="card h-100">
+      <div
+        class="card-content is-flex is-flex-direction-column"
+        style="min-height: 260px"
+      >
+        <div class="mb-3">
+          <i class="fas fa-building fa-3x has-text-info"></i>
+        </div>
+        <h5 class="title is-5">Divide by Workplace</h5>
+        <p class="subtitle is-6 has-text-grey">
+          Split your CSV into separate files by workplace
+        </p>
+        <div class="mt-auto">
+          <a href="/csvdivide" class="button is-info">Open Tool</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="column is-4-desktop is-6-tablet">
+    <div class="card h-100">
+      <div
+        class="card-content is-flex is-flex-direction-column"
+        style="min-height: 260px"
+      >
+        <div class="mb-3">
+          <i class="fas fa-code fa-3x has-text-warning"></i>
+        </div>
+        <h5 class="title is-5">HTML Processor</h5>
+        <p class="subtitle is-6 has-text-grey">
+          Clean and inline HTML for email compatibility
+        </p>
+        <div class="mt-auto">
+          <a href="/htmlprocess" class="button is-warning">Open Tool</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="column is-4-desktop is-6-tablet">
+    <div class="card h-100">
+      <div
+        class="card-content is-flex is-flex-direction-column"
+        style="min-height: 260px"
+      >
+        <div class="mb-3">
+          <i class="fas fa-link fa-3x has-text-danger"></i>
+        </div>
+        <h5 class="title is-5">URL Builder</h5>
+        <p class="subtitle is-6 has-text-grey">
+          Build custom survey URLs with parameters
+        </p>
+        <div class="mt-auto">
+          <a href="/urlbuilder" class="button is-danger">Open Tool</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="column is-4-desktop is-6-tablet">
+    <div class="card h-100">
+      <div
+        class="card-content is-flex is-flex-direction-column"
+        style="min-height: 260px"
+      >
+        <div class="mb-3">
+          <i class="fas fa-balance-scale fa-3x has-text-grey-dark"></i>
+        </div>
+        <h5 class="title is-5">CSV Compare</h5>
+        <p class="subtitle is-6 has-text-grey">
+          Find missing records between two CSV files
+        </p>
+        <div class="mt-auto">
+          <a href="/csvcompare" class="button is-light">Open Tool</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mt-5">
+  <header class="card-header">
+    <p class="card-header-title">
+      <i class="fas fa-external-link-alt mr-2"></i>JotForm Templates
+    </p>
+  </header>
+  <div class="card-content">
+    <div class="columns is-multiline">
+      {% for name, url in jotform_templates.items() %}
+      <div class="column is-4-desktop is-6-tablet">
+        <a href="{{ url }}" target="_blank" class="has-text-dark">
+          <div
+            class="box has-background-light has-text-centered hover-bg-light"
+          >
+            <i class="fas fa-file-alt has-text-primary mr-2"></i>
+            <span>{{ name }}</span>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
