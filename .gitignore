@@ -10,11 +10,11 @@ __pycache__/
 *.so
 .Python
 
-# Virtual environment
-venv/
+# Virtual environment (but keep venv for Flask app)
 env/
 ENV/
 .venv
+# Note: venv/ is kept for Flask app runtime
 
 # IDE
 .vscode/

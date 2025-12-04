@@ -1,0 +1,175 @@
+{% extends 'base.html' %} {% block content %}
+<div class="columns is-centered">
+  <div class="column is-10-desktop is-12-tablet">
+    <div class="card">
+      <div class="card-content">
+        <div class="has-text-centered mb-5">
+          <i
+            class="fas fa-exchange-alt fa-3x has-text-primary mb-2"
+            style="display: block; position: static !important; margin: 0 auto"
+          ></i>
+          <div style="clear: both"></div>
+          <h3 class="title is-4 mb-1 mt-2" style="position: static !important">
+            Map CSV Columns to UWP Format
+          </h3>
+          <p
+            class="subtitle is-6 has-text-grey mb-0"
+            style="position: static !important; margin-top: 20px"
+          >
+            Select which CSV columns map to each UWP output column
+          </p>
+        </div>
+
+        <form method="post" id="mappingForm">
+          <input type="hidden" name="column_mapping" id="columnMappingInput" />
+
+          <div class="box">
+            <h4 class="title is-5 mb-4">
+              <i class="fas fa-table mr-2"></i>Column Mapping
+            </h4>
+            <p class="help mb-4">
+              <i class="fas fa-info-circle mr-1"></i>
+              Map your CSV columns to the required UWP output columns. Leave
+              unmapped if a column is not available.
+            </p>
+
+            <div class="table-container">
+              <table class="table is-fullwidth is-striped">
+                <thead>
+                  <tr>
+                    <th style="width: 40%">UWP Output Column</th>
+                    <th style="width: 60%">CSV Source Column</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for uwp_col in uwp_columns %}
+                  <tr>
+                    <td>
+                      <strong>{{ uwp_col }}</strong>
+                    </td>
+                    <td>
+                      <div class="select is-fullwidth">
+                        <select
+                          class="column-mapping-select"
+                          data-uwp-column="{{ uwp_col }}"
+                        >
+                          <option value="">-- Not Mapped --</option>
+                          {% for csv_col in csv_columns %}
+                          <option
+                            value="{{ csv_col }}"
+                            {%
+                            if
+                            auto_mapping.get(uwp_col)
+                            ==
+                            csv_col
+                            %}selected{%
+                            endif
+                            %}
+                          >
+                            {{ csv_col }}
+                          </option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="field is-grouped mt-5">
+            <div class="control">
+              <button type="submit" class="button is-primary is-medium">
+                <i class="fas fa-download mr-2"></i>Convert & Download
+              </button>
+            </div>
+            <div class="control">
+              <a href="/csv2uwp" class="button is-light is-medium">
+                <i class="fas fa-arrow-left mr-2"></i>Upload Different File
+              </a>
+            </div>
+            <div class="control">
+              <button
+                type="button"
+                class="button is-info is-medium"
+                onclick="autoMapColumns()"
+              >
+                <i class="fas fa-magic mr-2"></i>Auto-Map Columns
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Build mapping object from form selections
+  function buildMapping() {
+    const mapping = {};
+    document.querySelectorAll(".column-mapping-select").forEach((select) => {
+      const uwpCol = select.dataset.uwpColumn;
+      const csvCol = select.value;
+      if (csvCol) {
+        mapping[csvCol] = uwpCol;
+      }
+    });
+    return mapping;
+  }
+
+  // Update hidden input before form submission
+  document
+    .getElementById("mappingForm")
+    .addEventListener("submit", function (e) {
+      const mapping = buildMapping();
+      document.getElementById("columnMappingInput").value =
+        JSON.stringify(mapping);
+    });
+
+  // Auto-map columns based on name similarity
+  function autoMapColumns() {
+    document.querySelectorAll(".column-mapping-select").forEach((select) => {
+      const uwpCol = select.dataset.uwpColumn.toLowerCase();
+      let bestMatch = null;
+      let bestScore = 0;
+
+      // Find best matching CSV column
+      select.querySelectorAll("option").forEach((option) => {
+        if (option.value) {
+          const csvCol = option.value.toLowerCase();
+          let score = 0;
+
+          // Exact match
+          if (csvCol === uwpCol) {
+            score = 100;
+          }
+          // Contains match
+          else if (csvCol.includes(uwpCol) || uwpCol.includes(csvCol)) {
+            score = 50;
+          }
+          // Word match
+          else {
+            const uwpWords = uwpCol.split(/\s+/);
+            const csvWords = csvCol.split(/\s+/);
+            const commonWords = uwpWords.filter((w) => csvWords.includes(w));
+            score = (commonWords.length / uwpWords.length) * 30;
+          }
+
+          if (score > bestScore) {
+            bestScore = score;
+            bestMatch = option.value;
+          }
+        }
+      });
+
+      if (bestMatch && bestScore > 20) {
+        select.value = bestMatch;
+      }
+    });
+  }
+</script>
+{% endblock %}
+

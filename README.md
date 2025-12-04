@@ -36,10 +36,16 @@ A Python application for processing CSV files, HTML content, and managing JotFor
    Then open `http://127.0.0.1:5000` in your browser.
    See `FLASK_APP_INSTRUCTIONS.md` for more details.
 
-4. **Build executable:**
+4. **Build executables:**
    ```bash
+   # Build GUI application
    ./build_executable.sh
+   
+   # Build Flask web application
+   ./build_flask_executable.sh
    ```
+   
+   The Flask executable will automatically start the server and open your browser!
 
 ## Features
 

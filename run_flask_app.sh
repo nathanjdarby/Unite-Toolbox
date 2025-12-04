@@ -10,10 +10,26 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # Change to the script directory
 cd "$SCRIPT_DIR"
 
-# Check if Flask is installed
-if ! python3 -c "import flask" 2>/dev/null; then
-    echo "Flask not found. Installing Flask..."
-    pip3 install flask
+# Check for virtual environment
+VENV_DIR="venv"
+if [ ! -d "$VENV_DIR" ]; then
+    echo "Creating virtual environment..."
+    python3 -m venv "$VENV_DIR"
+fi
+
+# Activate virtual environment
+echo "Activating virtual environment..."
+source "$VENV_DIR/bin/activate"
+
+# Check if Flask is installed in venv
+if ! python -c "import flask" 2>/dev/null; then
+    echo "Flask not found. Installing Flask and dependencies..."
+    pip install --upgrade pip
+    pip install flask
+    # Install other requirements if they exist
+    if [ -f "requirements.txt" ]; then
+        pip install -r requirements.txt
+    fi
 fi
 
 # Create necessary directories if they don't exist
@@ -30,12 +46,13 @@ else
     FILES_COPIED=false
 fi
 
+echo ""
 echo "Flask app will be available at: http://127.0.0.1:5000"
 echo "Press Ctrl+C to stop the server"
 echo ""
 
 # Run Flask app
-python3 flask_app.py
+python flask_app.py
 
 # Cleanup: remove copied files if we copied them
 if [ "$FILES_COPIED" = true ]; then
@@ -44,4 +61,7 @@ if [ "$FILES_COPIED" = true ]; then
     rm flask_app.py
     rm -r templates
 fi
+
+# Deactivate virtual environment
+deactivate
 

@@ -37,7 +37,7 @@ a = Analysis(
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=['PIL', 'PIL.*', 'matplotlib'],  # Exclude PIL and matplotlib (not needed for Flask app)
+    excludes=[],  # Don't exclude - let PyInstaller handle dependencies
     win_no_prefer_redirects=False,
     win_private_assemblies=False,
     cipher=block_cipher,
@@ -63,7 +63,7 @@ exe = EXE(
     console=True,  # Keep console to show Flask output
     disable_windowed_traceback=False,
     argv_emulation=False,
-    target_arch='universal2',  # Universal binary for Intel and Apple Silicon Macs
+    target_arch=None,  # Build for current architecture (arm64 works on Intel via Rosetta 2)
     codesign_identity=None,
     entitlements_file=None,
 )
