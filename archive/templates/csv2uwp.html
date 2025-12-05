@@ -10,19 +10,19 @@
           ></i>
           <div style="clear: both"></div>
           <h3 class="title is-4 mb-1 mt-2" style="position: static !important">
-            CSV to UWP Converter
+            CSV/Excel to UWP Converter
           </h3>
           <p
             class="subtitle is-6 has-text-grey mb-0"
             style="position: static !important; margin-top: 20px"
           >
-            Convert CSV files to UWP format for ballot processing
+            Convert CSV or Excel files to UWP format for ballot processing
           </p>
         </div>
         <form method="post" enctype="multipart/form-data">
           <div class="field">
-            <label for="csv_file" class="label">
-              <i class="fas fa-upload mr-2"></i>Upload CSV File
+            <label for="data_file" class="label">
+              <i class="fas fa-upload mr-2"></i>Upload CSV or Excel File
             </label>
             <div class="control">
               <div class="file has-name is-fullwidth">
@@ -30,9 +30,9 @@
                   <input
                     class="file-input"
                     type="file"
-                    id="csv_file"
-                    name="csv_file"
-                    accept=".csv"
+                    id="data_file"
+                    name="data_file"
+                    accept=".csv,.xlsx,.xls"
                     required
                   />
                   <span class="file-cta">
@@ -47,7 +47,7 @@
             </div>
             <p class="help">
               <i class="fas fa-info-circle mr-1"></i>
-              Select a CSV file to convert to UWP format
+              Select a CSV or Excel (.xlsx) file to convert to UWP format
             </p>
           </div>
           <div class="field is-grouped">

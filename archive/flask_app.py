@@ -66,14 +66,13 @@ def csv2uwp():
                 column_mapping = json.loads(column_mapping_json)
                 
                 # Get the stored file path from session
-                if 'csv_file_path' not in session:
+                if 'data_file_path' not in session:
                     flash('Session expired. Please upload the file again.', 'danger')
                     return redirect(url_for('csv2uwp'))
                 
-                # Read the file again (lazy load pandas)
-                file_path = session['csv_file_path']
-                pd = _get_pandas()
-                df = pd.read_csv(file_path, engine='c', low_memory=False)
+                # Read the file again (supports both CSV and Excel)
+                file_path = session['data_file_path']
+                df = DataProcessor.load_data_file(file_path)
                 
                 # Convert with custom mapping
                 df_uwp = DataProcessor.convert_csv_to_uwp(df, column_mapping=column_mapping)
@@ -81,8 +80,8 @@ def csv2uwp():
                 # Clean up temporary file
                 if os.path.exists(file_path):
                     os.remove(file_path)
-                session.pop('csv_file_path', None)
-                session.pop('csv_columns', None)
+                session.pop('data_file_path', None)
+                session.pop('data_columns', None)
                 
                 # Return converted file (optimized CSV writing)
                 output = io.StringIO()
@@ -99,7 +98,7 @@ def csv2uwp():
                 return redirect(url_for('csv2uwp'))
         else:
             # Initial file upload step
-            file = request.files.get('csv_file')
+            file = request.files.get('data_file')
             if not file or file.filename == '':
                 flash('No file selected', 'danger')
                 return redirect(request.url)
@@ -109,13 +108,12 @@ def csv2uwp():
                 file_path = os.path.join(UPLOAD_FOLDER, f'temp_{filename}')
                 file.save(file_path)
                 
-                # Read CSV to get columns (lazy load pandas, optimized)
-                pd = _get_pandas()
-                df = pd.read_csv(file_path, engine='c', low_memory=False)
+                # Read file to get columns (supports both CSV and Excel)
+                df = DataProcessor.load_data_file(file_path)
                 
                 # Store file path and columns in session
-                session['csv_file_path'] = file_path
-                session['csv_columns'] = list(df.columns)
+                session['data_file_path'] = file_path
+                session['data_columns'] = list(df.columns)
                 
                 # Get UWP output columns
                 uwp_columns = DataProcessor.get_uwp_output_columns()
@@ -140,7 +138,7 @@ def csv2uwp():
                                 break
                 
                 return render_template('csv2uwp_map.html', 
-                                     csv_columns=session['csv_columns'],
+                                     csv_columns=session['data_columns'],
                                      uwp_columns=uwp_columns,
                                      auto_mapping=auto_mapping)
             except Exception as e:

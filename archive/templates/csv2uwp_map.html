@@ -10,13 +10,13 @@
           ></i>
           <div style="clear: both"></div>
           <h3 class="title is-4 mb-1 mt-2" style="position: static !important">
-            Map CSV Columns to UWP Format
+            Map Columns to UWP Format
           </h3>
           <p
             class="subtitle is-6 has-text-grey mb-0"
             style="position: static !important; margin-top: 20px"
           >
-            Select which CSV columns map to each UWP output column
+            Select which columns from your file map to each UWP output column
           </p>
         </div>
 
@@ -29,7 +29,7 @@
             </h4>
             <p class="help mb-4">
               <i class="fas fa-info-circle mr-1"></i>
-              Map your CSV columns to the required UWP output columns. Leave
+              Map your file columns to the required UWP output columns. Leave
               unmapped if a column is not available.
             </p>
 
@@ -38,7 +38,7 @@
                 <thead>
                   <tr>
                     <th style="width: 40%">UWP Output Column</th>
-                    <th style="width: 60%">CSV Source Column</th>
+                    <th style="width: 60%">Source Column</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -54,19 +54,19 @@
                           data-uwp-column="{{ uwp_col }}"
                         >
                           <option value="">-- Not Mapped --</option>
-                          {% for csv_col in csv_columns %}
+                          {% for source_col in csv_columns %}
                           <option
-                            value="{{ csv_col }}"
+                            value="{{ source_col }}"
                             {%
                             if
                             auto_mapping.get(uwp_col)
                             ==
-                            csv_col
+                            source_col
                             %}selected{%
                             endif
                             %}
                           >
-                            {{ csv_col }}
+                            {{ source_col }}
                           </option>
                           {% endfor %}
                         </select>
