@@ -1,0 +1,81 @@
+{% extends 'base.html' %} {% block content %}
+<div class="columns is-centered">
+  <div class="column is-6-desktop is-8-tablet">
+    <div class="card" style="max-width: 500px; margin: 0 auto">
+      <div class="card-content">
+        <div class="has-text-centered mb-4">
+          <i
+            class="fas fa-code fa-3x has-text-warning mb-2"
+            style="display: block; position: static !important; margin: 0 auto"
+          ></i>
+          <div style="clear: both"></div>
+          <h3 class="title is-4 mb-1 mt-2" style="position: static !important">
+            HTML Processor
+          </h3>
+          <p
+            class="subtitle is-6 has-text-grey mb-0"
+            style="position: static !important; margin-top: 20px"
+          >
+            Clean and inline HTML for email compatibility
+          </p>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+          <div class="field">
+            <label for="html_file" class="label">
+              <i class="fas fa-upload mr-2"></i>Upload HTML File
+            </label>
+            <div class="control">
+              <div class="file has-name is-fullwidth">
+                <label class="file-label">
+                  <input
+                    class="file-input"
+                    type="file"
+                    id="html_file"
+                    name="html_file"
+                    accept=".html,.htm"
+                    required
+                  />
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label"> Choose a file… </span>
+                  </span>
+                  <span class="file-name"> No file selected </span>
+                </label>
+              </div>
+            </div>
+            <p class="help">
+              <i class="fas fa-info-circle mr-1"></i>
+              Select an HTML file to process and clean
+            </p>
+          </div>
+          <div class="field is-grouped">
+            <div class="control">
+              <button type="submit" class="button is-warning is-medium">
+                <i class="fas fa-download mr-2"></i>Process & Download
+              </button>
+            </div>
+            <div class="control">
+              <a href="/" class="button is-light is-medium">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Home
+              </a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document
+    .querySelector(".file-input")
+    .addEventListener("change", function (e) {
+      const fileName = e.target.files[0]
+        ? e.target.files[0].name
+        : "No file selected";
+      document.querySelector(".file-name").textContent = fileName;
+    });
+</script>
+{% endblock %}
